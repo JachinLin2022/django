@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/favicon.ico">
+  <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/cover/">
+
+  <title>同济商圈餐饮地图</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/css/ie10-viewport-bug-workaround.css"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/examples/cover/cover.css" rel="stylesheet">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie-emulation-modes-warning.js"></script>
+
+
+</head>
+<style>
+  .cover .btn-lg {
+    font-weight: 500;
+  }
+</style>
+
+<body>
+
+  <div class="site-wrapper" style="background-color: blueviolet;">
+
+    <div class="site-wrapper-inner ">
+
+      <div class="cover-container">
+
+        <div class="masthead clearfix">
+          <div class="inner">
+            <img src="./src/img/logo.png" style="float: left;">
+            <!-- <h3 class="masthead-brand">Cover</h3> -->
+            <nav>
+              <ul class="nav masthead-nav">
+                <li><a href="./index.html">首页</a></li>
+                <li><a href="./guest.html">我是顾客</a></li>
+                <li class="active"><a href="./owner.html">我是商家</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div class="inner cover">
+          <h1 class="cover-heading">商家后台管理系统</h1>
+          <div class="" id="resinfo">
+
+
+            <p class="lead">入口说明：</p>
+            <p class="lead">我已入驻：登录后台，可管理饮食信息</p>
+            <p class="lead">现在入驻：提供店家LOGO以及位置等信息</p>
+
+
+            <p class="lead">
+              <a href="#" class="btn btn-lg btn-default">我已入驻</a>
+              <a href="#" class="btn btn-lg btn-default">现在入驻</a>
+            </p>
+          </div>
+          <div id="logininfo" class="hidden">
+
+            <p class="lead">请输入商家唯一标识符EID及密码</p>
+
+            <input type="text" class="form-control" id="eidinput" value="" placeholder="eid" />
+            <br>
+            <input type="text" class="form-control" id="eidpass" value="" placeholder="密码" />
+            <br>
+
+            <button type="button" id="login" class="btn btn-default btn-lg">登录后台</button>
+
+          </div>
+
+          <div id="register" class="hidden">
+
+            <p class="lead">请输入商家的相关信息</p>
+            <input type="text" class="form-control" id="eidinput2" value="" placeholder="商家唯一标识符eid" />
+            <br>
+            <input type="text" class="form-control" id="eidpass2" value="" placeholder="密码" />
+            <br>
+            <input type="text" class="form-control" id="eidname" value="" placeholder="店铺名称" />
+            <br>
+            <input type="text" class="form-control" id="eidtime" value="" placeholder="营业时间" />
+            <br>
+            <input type="text" class="form-control" id="eidlongti" value="" placeholder="店铺经度" />
+            <br>
+            <input type="text" class="form-control" id="eidlati" value="" placeholder="店铺纬度" />
+            <br>
+            <input type="text" class="form-control" id="eidimg" value="" placeholder="店铺图片URL" />
+            <br>
+            <button type="button" id="reg" class="btn btn-default btn-lg">确认入驻</button>
+
+          </div>
+        </div>
+
+
+        <!-- <div class="mastfoot">
+          <div class="inner">
+            <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
+                href="https://twitter.com/mdo">@mdo</a>.</p>
+          </div>
+        </div> -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+<script>
+  document.querySelector("#resinfo > p:nth-child(4) > a:nth-child(1)").onclick = function () {
+    document.querySelector("#resinfo").classList.add("hidden");
+    document.querySelector("#logininfo").classList.remove("hidden");
+  }
+  document.querySelector("#resinfo > p:nth-child(4) > a:nth-child(2)").onclick = function () {
+    document.querySelector("#resinfo").classList.add("hidden");
+    document.querySelector("#register").classList.remove("hidden");
+  }
+  // 进入后台
+  document.querySelector("#login").onclick = function () {
+    var input = document.querySelector("#eidinput").value;
+    var pass = document.querySelector("#eidpass").value;
+    if (input == "" || pass == "") {
+      alert("eid以及密码不能为空！");
+      return;
+    }
+    var url = "http://localhost:8000/api/rpass?rno=" + input;
+    $.get(url, function (data, status) {
+      if (status == "success") {
+        if (data.length == 0) {
+          alert("该商家不存在！");
+          return;
+        }
+        else if (data[0]["rpass"] != pass) {
+          alert("商家密码错误！");
+          return;
+        }
+        alert("登录成功！");
+        window.location.href = "./back.html?rno=" + input;
+      }
+
+
+    });
+  }
+  // 入驻
+  document.querySelector("#reg").onclick = function () {
+    var eid = document.querySelector("#eidinput2").value;
+    var eidpass = document.querySelector("#eidpass2").value;
+    var eidname = document.querySelector("#eidname").value;
+    var eidtime = document.querySelector("#eidtime").value;
+    var eidlongti = document.querySelector("#eidlongti").value;
+    var eidlati = document.querySelector("#eidlati").value;
+    var eidimg = document.querySelector("#eidimg").value;
+    if(eid==""||eidpass==""||eidname==""||eidtime==""||eidlongti==""||eidlati==""||eidimg=="")
+    {
+      alert("入驻信息不能为空！");
+      return;
+    }
+
+
+    var url = "http://localhost:8000/regshop/";
+    $.post(url, { rno: eid,rpass:eidpass,rname:eidname,rtime:eidtime,rla:eidlati,rlo:eidlongti,rimg:eidimg }, function (data, status) {
+      if (status == "success") {
+        window.location.href = "./back.html?eid=" + eid;
+      }
+
+
+    });
+
+
+  }
+
+</script>
+
+</html>

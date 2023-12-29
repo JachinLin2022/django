@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/css/ie10-viewport-bug-workaround.css"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/examples/cover/cover.css" rel="stylesheet">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie-emulation-modes-warning.js"></script>
+
+  <style>
+    #container {
+      width: 100%;
+      height: 500px;
+      top: 40px;
+      border-radius: 150px;
+      border: 10px solid rgb(110, 110, 209)
+    }
+  </style>
+</head>
+
+<div class="site-wrapper" style="background-color: blueviolet;">
+
+  <div class="site-wrapper-inner ">
+
+    <div class="cover-container">
+      <div class="masthead clearfix">
+        <div class="inner">
+          <img src="./src/img/logo.png" style="float: left;">
+          <!-- <h3 class="masthead-brand">Cover</h3> -->
+          <nav>
+            <ul class="nav masthead-nav">
+              <li><a href="./index.html">首页</a></li>
+              <li  class="active"><a href="./map.html">我是顾客</a></li>
+              <li><a href="./owner.html">我是商家</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="cover-container" style="width: 70%;">
+      <div id="container"></div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+  integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script
+  src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+
+
+</body>
+<script src="./src/js/jquery.js"></script>
+<!-- 加载地图JSAPI脚本 -->
+<script src="https://webapi.amap.com/maps?v=1.4.15&key=a084b280f5a5bf5e7880efbd7880bb18"></script>
+<script>
+
+
+  var map = new AMap.Map('container', {
+    resizeEnable: true, //是否监控地图容器尺寸变化
+    zoom: 16, //初始化地图层级
+    center: [121.215227, 31.286276], //初始化地图中心点
+    // mapStyle:'amap://styles/macaron'
+  });
+
+
+
+  // 此处插入数据库，更新店铺信息
+  // $.get("http://localhost:8000/uploadfood/",function(data,status){
+  //     console.log(data[0]);
+  //   });
+
+
+  var clickHandler = function (e) {
+    var url = location.search;
+    var pos = url.indexOf("gid=");
+    var gid = url.substr(pos + 4,);
+
+    // console.log(gid);
+
+    var pos=this["w"]["title"].indexOf("id:");
+    var eid=this["w"]["title"].substr(pos+3,);
+    // console.log(eid);
+    window.location.href = "./orderback.html?rno=" + eid+"&gid="+gid;
+    
+  };
+
+  $.get("http://localhost:8000/api/rshop", function (data, status) {
+    for (var i = data.length - 1; i >= 0; --i) {
+      // 创建 AMap.Icon 实例：
+      var icon = new AMap.Icon({
+        size: new AMap.Size(40, 40),    // 图标尺寸
+        image: data[i]["rimg"],  // Icon的图像
+        imageOffset: new AMap.Pixel(0, 0),  // 图像相对展示区域的偏移量，适于雪碧图等
+        imageSize: new AMap.Size(40, 40)   // 根据所设置的大小拉伸或压缩图片
+      });
+
+      // 将 Icon 实例添加到 marker 上:
+      var marker = new AMap.Marker({
+        position: new AMap.LngLat(data[i]["rlo"], data[i]["rla"]),
+        offset: new AMap.Pixel(0, 0),
+        icon: icon, // 添加 Icon 实例
+        title: data[i]["rname"]+"\nid:"+ data[i]["rno"]
+      });
+      // 绑定事件
+      marker.on('click', clickHandler);
+      map.add(marker);
+    }
+  });
+
+
+
+
+</script>
+
+</html>

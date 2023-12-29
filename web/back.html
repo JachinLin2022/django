@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/favicon.ico">
+  <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/cover/">
+
+  <title>同济商圈餐饮地图</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/css/ie10-viewport-bug-workaround.css"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/examples/cover/cover.css" rel="stylesheet">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie-emulation-modes-warning.js"></script>
+
+
+</head>
+<style>
+  #leftbar {
+    background-color: rgb(196, 193, 25);
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: darkgrey 5px 5px 5px 1px;
+    border-radius: 20px;
+    left: 20px;
+  }
+
+  #rightbar {
+    background-color: rgb(89, 142, 221);
+    height: 500px;
+    box-shadow: darkgrey 5px 5px 5px 1px;
+    border-radius: 20px;
+    right: 50px;
+    overflow: auto;
+  }
+
+  #topbar {
+    background-color: blueviolet;
+    border-radius: 100px;
+    box-shadow: darkgrey 5px 5px 5px 1px;
+  }
+
+  .imgcenter {
+    display: flex;
+    align-items: center;
+  }
+
+  .addto {
+    border-radius: 100000px;
+  }
+</style>
+
+<body>
+  <div class="container" style="height: 100%;width: 100%;background-color: white;">
+    <div class="row clearfix ">
+      <div class="col-md-12 column" id="topbar">
+        <div class="cover-container">
+
+          <div class="masthead clearfix" style="position: relative;">
+            <div class="inner">
+              <img src="./src/img/logo.png" style="float: left;position: relative;bottom: 15px;">
+              <!-- <h3 class="masthead-brand">Cover</h3> -->
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="./index.html">首页</a></li>
+                  <li><a href="./map.html">我是顾客</a></li>
+                  <li class="active"><a href="./owner.html">我是商家</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix" style="padding-top: 20px">
+      <div class="col-md-2 column " id="leftbar">
+        <div class="navigation">
+          <h3>
+
+          </h3>
+          <p>
+
+          </p>
+          <img src="" height="100px" />
+          <ul class="nav nav-stacked nav-pills" style="margin-top: 10px;">
+            <li id="pinglun" class="active">
+              <a href="#">评论</a>
+            </li>
+            <li id="caidan">
+              <a href="#">菜单</a>
+            </li>
+            <li id="addfood">
+              <a href="#">添加菜品</a>
+            </li>
+            <li id="delfood">
+              <a href="#">删除菜品</a>
+            </li>
+            <li id="order">
+              <a href="#">查看订单</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <!-- 分隔 -->
+      <div class="col-md-1 column"></div>
+
+      <div class="col-md-8 column" id="rightbar">
+        <!-- 待插入数据库读取到的数据 -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+
+<script>
+  String.format = function () {
+    if (arguments.length == 0)
+      return null;
+    var str = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+      var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
+      str = str.replace(re, arguments[i]);
+
+    }
+    return str;
+  }
+  var lastclick = "pinglun";
+  // 添加模板
+  var rowinfo = '<div style="border-bottom:2px solid rgb(94, 99, 175);" class="row clearfix imgcenter"> {0} {1} </div>';
+  var infotemp = '<div class="col-md-6 column"> <div class="row clearfix imgcenter"> <div class="col-md-6 column"> <img style="width: 125px;border-radius: 20px;" src="{0}"> </div> <div class="col-md-6 column"> <h3> {1} </h3> <p> {2}<br>价格：{3}<br>销量：{4} </p>  </div> </div> </div>';
+
+  var commenttemp = '<div class="row clearfix imgcenter" style="border-bottom:2px solid rgb(94, 99, 175);"> <div class="col-md-4 column"> <div class="row clearfix imgcenter"> <div class="col-md-6 column"> <img style="width: 100px;border-radius: 20px;" src="{0}"> </div> <div class="col-md-6 column"> <h3> {1} </h3> <p> 评论星级：{2}<br>评论时间：{3}</p> </div> </div> </div> <div class="col-md-8 column"> <div class="row clearfix imgcenter"> <p class="lead text-left"> {4} </p> </div> </div> </div>'
+  var url = location.search;
+  var pos = url.indexOf("rno=");
+  var rno = url.substr(pos + 4,);
+  var str = new Array()
+  url = "http://localhost:8000/api/rshop?rno=" + rno;
+  $.get(url, function (data, status) {
+    if (status == "success") {
+      // console.log(data);
+      console.log(data[0]);
+      str[0] = data[0]["rname"];
+      str[1] = data[0]["rtime"];
+      str[2] = data[0]["rno"];
+      str[3] = data[0]["rimg"];
+      // 获取店铺名称以及图片
+      document.querySelector("#leftbar > div > h3").innerHTML = str[0];
+      document.querySelector("#leftbar > div > p").innerHTML = "营业时间：" + str[1];
+      document.querySelector("#leftbar > div > img").src = str[3];
+
+      // 初始化界面
+      url = "http://localhost:8000/api/rcom?rno=" + str[2];
+      $.get(url, function (data, status) {
+        if (status == "success") {
+          // console.log(data);
+          for (var i = 0; i < data.length; i++) {
+            var info = String.format(commenttemp, data[i]["rcuserimg"], data[i]["rcuser"], data[i]["rcscore"], data[i]["rcdate"], data[i]["rcom"]);
+            $("#rightbar").append(info);
+          }
+        }
+      });
+    }
+  });
+  // 查看菜单
+  document.querySelector("#caidan").onclick = function () {
+    $("#rightbar").empty();
+    $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+      if (status == "success") {
+        for (var i = data.length - 1; i >= 0; i--) {
+          var info1 = String.format(infotemp, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"]);
+          if (i - 1 < 0) {
+            msg = String.format(rowinfo, info1, "");
+          }
+          else {
+            i--;
+            var info2 = String.format(infotemp, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"]);
+            msg = String.format(rowinfo, info1, info2);
+          }
+          $("#rightbar").append(msg);
+        }
+      }
+    });
+
+    document.querySelector("#" + lastclick).classList.remove("active")
+    document.querySelector("#caidan").classList.add("active")
+    lastclick = "caidan";
+  }
+  //查看评论
+  document.querySelector("#pinglun").onclick = function () {
+    $("#rightbar").empty();
+    url = "http://localhost:8000/api/rcom?rno=" + str[2];
+    $.get(url, function (data, status) {
+      if (status == "success") {
+        // console.log(data);
+        for (var i = 0; i < data.length; i++) {
+          var info = String.format(commenttemp, data[i]["rcuserimg"], data[i]["rcuser"], data[i]["rcscore"], data[i]["rcdate"], data[i]["rcom"]);
+          $("#rightbar").append(info);
+        }
+
+      }
+    });
+    document.querySelector("#" + lastclick).classList.remove("active")
+    document.querySelector("#pinglun").classList.add("active")
+    lastclick = "pinglun";
+  }
+
+  //添加菜品
+  function addfoodfunc(obj) {
+    // console.log(rno);
+    var cname = document.querySelector("#cname").value;
+    var cdescription = document.querySelector("#cdes").value;
+    var cpri = document.querySelector("#cpri").value;
+    var cimg = document.querySelector("#cimg").value;
+    if (cname == "" || cdescription == "" || cpri == "" || cimg == "") {
+      alert("菜品信息不能为空！");
+      return;
+    }
+    var url = "http://localhost:8000/addfood/";
+    $.post(url, { rno: rno, cname: cname, cdescription: cdescription, cpri: cpri, cimg: cimg }, function (data, status) {
+      if (status == "success") {
+        alert("添加菜品成功！");
+        $("#rightbar").empty();
+        $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+          if (status == "success") {
+            for (var i = data.length - 1; i >= 0; i--) {
+              var info1 = String.format(infotemp, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"]);
+              if (i - 1 < 0) {
+                msg = String.format(rowinfo, info1, "");
+              }
+              else {
+                i--;
+                var info2 = String.format(infotemp, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"]);
+                msg = String.format(rowinfo, info1, info2);
+              }
+              $("#rightbar").append(msg);
+            }
+          }
+        });
+
+        document.querySelector("#" + lastclick).classList.remove("active")
+        document.querySelector("#caidan").classList.add("active")
+        lastclick = "caidan";
+      }
+    });
+  }
+  //添加菜品
+  document.querySelector("#addfood").onclick = function () {
+    $("#rightbar").empty();
+    document.querySelector("#" + lastclick).classList.remove("active")
+    document.querySelector("#addfood").classList.add("active")
+    lastclick = "addfood";
+    var info = '<div class="addfoodinfo"> <h1 class="cover-heading">商家后台管理系统</h1> <p class="lead">请输入菜品的相关信息</p> <input type="text" class="form-control" id="cname" value="" placeholder="菜品名称"> <br> <input type="text" class="form-control" id="cdes" value="" placeholder="菜品描述"> <br> <input type="text" class="form-control" id="cpri" value="" placeholder="菜品价格"> <br> <input type="text" class="form-control" id="cimg" value="" placeholder="菜品图片URL"> <br> <button type="button" id="login" onclick=addfoodfunc(this) class="btn btn-default btn-lg">添加菜品</button> </div>';
+    $("#rightbar").append(info);
+  }
+
+  var infotemp2 = '<div class="col-md-6 column"> <div class="row clearfix imgcenter"> <div class="col-md-6 column"> <img style="width: 125px;border-radius: 20px;" src="{0}"> </div> <div class="col-md-6 column"> <h3> {1} </h3> <p> {2}<br>价格：{3}<br>销量：{4} </p> <button type="button" id="{5}" onclick=deletefood(this) class="btn btn-primary addto">删除</button> </div> </div> </div>';
+  //删除菜品
+  function deletefood(obj) {
+    var r = confirm("亲，您确定删除该菜品吗？");
+    if (r == true) {
+      var cno = obj.getAttribute("id");
+      $.get("http://localhost:8000/delfood?cno=" + cno, function (data, status) {
+        if (status == "success") {
+          $("#rightbar").empty();
+          $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+            if (status == "success") {
+
+              for (var i = data.length - 1; i >= 0; i--) {
+                var info1 = String.format(infotemp2, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"], data[i]["cno"]);
+                if (i - 1 < 0) {
+                  msg = String.format(rowinfo, info1, "");
+                }
+                else {
+                  i--;
+                  var info2 = String.format(infotemp2, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"], data[i]["cno"]);
+                  msg = String.format(rowinfo, info1, info2);
+                }
+                $("#rightbar").append(msg);
+              }
+            }
+          });
+        }
+      });
+
+    }
+
+  }
+
+  document.querySelector("#delfood").onclick = function () {
+    $("#rightbar").empty();
+    document.querySelector("#" + lastclick).classList.remove("active")
+    document.querySelector("#delfood").classList.add("active")
+    lastclick = "delfood";
+
+    $("#rightbar").empty();
+    $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+      if (status == "success") {
+
+        for (var i = data.length - 1; i >= 0; i--) {
+          var info1 = String.format(infotemp2, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"], data[i]["cno"]);
+          if (i - 1 < 0) {
+            msg = String.format(rowinfo, info1, "");
+          }
+          else {
+            i--;
+            var info2 = String.format(infotemp2, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"], data[i]["cno"]);
+            msg = String.format(rowinfo, info1, info2);
+          }
+          $("#rightbar").append(msg);
+        }
+      }
+    });
+
+
+
+  }
+
+  //查看订单
+  var ordertemp = '<div class="row clearfix imgcenter" style="border-bottom:2px solid rgb(94, 99, 175);"> <div class="col-md-5 column"> <div class="row clearfix imgcenter"> <div class="col-md-6 column"> <img style="width: 100px;border-radius: 20px;" src="{0}"> </div> <div class="col-md-6 column"> <h3> {1} </h3> <p> 营业时间：{2}</p> </div> </div> </div> <div class="col-md-4 column"> <div class="row clearfix imgcenter"> <p class="text-left"> {3} </p> </div> </div> <div class="col-md-3 column"> <div class="row clearfix imgcenter"> <p style="margin-bottom: 0;" class=" text-left"> 用户名：{6}<br>用户手机号：{7}<br>用户地址：{8}<br>下单时间：{4}<br>总金额：￥{5} </p> </div> </div> </div> </div>';
+  document.querySelector("#order").onclick = function () {
+    $("#rightbar").empty();
+    document.querySelector("#" + lastclick).classList.remove("active")
+    document.querySelector("#order").classList.add("active")
+    lastclick = "order";
+    var rname=str[0]
+    var rtime=str[1]
+    var rimg=str[3]
+    console.log(rno,rname,rtime,rimg)
+    $.ajax({
+      url: "http://localhost:8000/api/outorder?rno=" + rno,
+      type: "GET",
+      async: false,
+      success: function (data) {
+        for (var i = data.length - 1; i >= 0; --i) {
+          var gid=data[i]["gid"];
+          var ofood=data[i]["ofood"];
+          var odate=data[i]["odate"];
+          var omoney=data[i]["opri"];
+          $.ajax({
+            url: "http://localhost:8000/api/guest?gid=" + gid,
+            type: "GET",
+            async: false,
+            success: function (data) {
+              console.log(data)
+              var gname = data[0]["gname"]
+              var gadd   = data[0]["gadd"]
+              var gpho = data[0]["gpho"]
+              var theorder = String.format(ordertemp, rimg, rname, rtime, ofood,odate,omoney, gname,gpho,gadd);
+              // console.log(odate);
+              $("#rightbar").append(theorder);
+            }
+          })
+        }
+      }
+    })
+
+
+
+
+
+
+
+  }
+
+
+</script>
+
+</html>

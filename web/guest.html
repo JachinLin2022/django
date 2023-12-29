@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/favicon.ico">
+  <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/cover/">
+
+  <title>同济商圈餐饮地图</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/css/ie10-viewport-bug-workaround.css"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/examples/cover/cover.css" rel="stylesheet">
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie-emulation-modes-warning.js"></script>
+
+
+</head>
+<style>
+  .cover .btn-lg {
+    font-weight: 500;
+  }
+</style>
+
+<body>
+
+  <div class="site-wrapper" style="background-color: blueviolet;">
+
+    <div class="site-wrapper-inner ">
+
+      <div class="cover-container">
+
+        <div class="masthead clearfix">
+          <div class="inner">
+            <img src="./src/img/logo.png" style="float: left;">
+            <!-- <h3 class="masthead-brand">Cover</h3> -->
+            <nav>
+              <ul class="nav masthead-nav">
+                <li><a href="./index.html">首页</a></li>
+                <li class="active"><a href="./map.html">我是顾客</a></li>
+                <li ><a href="./owner.html">我是商家</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div class="inner cover">
+          <h1 class="cover-heading">环同济商圈顾客入口</h1>
+          <div class="" id="resinfo">
+
+
+            <p class="lead">入口说明：</p>
+            <p class="lead">我已注册：登录后可浏览餐饮地图并点餐</p>
+            <p class="lead">现在注册：提供相关信息成为一员</p>
+
+
+            <p class="lead">
+              <a href="#" class="btn btn-lg btn-default">我已注册</a>
+              <a href="#" class="btn btn-lg btn-default">现在注册</a>
+            </p>
+          </div>
+          <div id="logininfo" class="hidden">
+
+            <p class="lead">请输入用户唯一标识符GID及密码</p>
+
+            <input type="text" class="form-control" id="gidinput" value="" placeholder="gid" />
+            <br>
+            <input type="text" class="form-control" id="gidpass" value="" placeholder="密码" />
+            <br>
+
+            <button type="button" id="login" class="btn btn-default btn-lg">开始点餐</button>
+
+          </div>
+
+          <div id="register" class="hidden">
+
+            <p class="lead">请输入顾客的相关信息</p>
+            <input type="text" class="form-control" id="gidinput2" value="" placeholder="用户唯一标识符gid" />
+            <br>
+            <input type="text" class="form-control" id="gidpass2" value="" placeholder="用户登录密码" />
+            <br>
+            <input type="text" class="form-control" id="gidname" value="" placeholder="用户名称" />
+            <br>
+            <input type="text" class="form-control" id="gidpho" value="" placeholder="用户手机" />
+            <br>
+            <input type="text" class="form-control" id="gidaddr" value="" placeholder="用户地址" />
+            <br>
+            <button type="button" id="reg" class="btn btn-default btn-lg">确认注册</button>
+          </div>
+        </div>
+
+
+        <!-- <div class="mastfoot">
+          <div class="inner">
+            <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
+                href="https://twitter.com/mdo">@mdo</a>.</p>
+          </div>
+        </div> -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/dist/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+<script>
+  document.querySelector("#resinfo > p:nth-child(4) > a:nth-child(1)").onclick = function () {
+    document.querySelector("#resinfo").classList.add("hidden");
+    document.querySelector("#logininfo").classList.remove("hidden");
+  }
+  document.querySelector("#resinfo > p:nth-child(4) > a:nth-child(2)").onclick = function () {
+    document.querySelector("#resinfo").classList.add("hidden");
+    document.querySelector("#register").classList.remove("hidden");
+  }
+  // 用户登录
+  document.querySelector("#login").onclick = function () {
+    var input = document.querySelector("#gidinput").value;
+    var pass = document.querySelector("#gidpass").value;
+    if (input == "" || pass == "") {
+      alert("gid以及密码不能为空！");
+      return;
+    }
+    var url = "http://localhost:8000/api/guest?gid=" + input;
+    $.get(url, function (data, status) {
+      if (status == "success") {
+        if (data.length == 0) {
+          alert("该用户不存在！");
+          return;
+        }
+        else if (data[0]["gpass"] != pass) {
+          alert("用户密码错误！");
+          return;
+        }
+        alert("登录成功！");
+        window.location.href = "./map.html?gid=" + input;
+      }
+
+
+    });
+  }
+  // 用户注册
+  document.querySelector("#reg").onclick = function () {
+    var gid = document.querySelector("#gidinput2").value;
+    var gidpass = document.querySelector("#gidpass2").value;
+    var gidname = document.querySelector("#gidname").value;
+    var gidpho = document.querySelector("#gidpho").value;
+    var gidaddr = document.querySelector("#gidaddr").value;
+
+    if(gid==""||gidpass==""||gidname==""||gidpho==""||gidaddr=="")
+    {
+      alert("入驻信息不能为空！");
+      return;
+    }
+
+
+    var url = "http://localhost:8000/userreg/";
+    $.post(url, { gid: gid,gpass:gidpass,gname:gidname,gpho:gidpho,gadd:gidaddr}, function (data, status) {
+      if (status == "success") {
+        
+        if(data="注册失败，用户ID已经存在！")
+        {
+          alert(data);
+          return;
+        }
+        window.location.href = "./map.html?gid=" + gid;
+      }
+    });
+  }
+
+</script>
+
+</html>
