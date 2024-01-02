@@ -163,22 +163,21 @@
   var pos = url.indexOf("rno=");
   var rno = url.substr(pos + 4,);
   var str = new Array()
-  url = "http://localhost:8000/api/rshop?rno=" + rno;
+  url = "http://localhost:8080/rshop/get?rno=" + rno;
   $.get(url, function (data, status) {
     if (status == "success") {
-      // console.log(data);
-      console.log(data[0]);
-      str[0] = data[0]["rname"];
-      str[1] = data[0]["rtime"];
-      str[2] = data[0]["rno"];
-      str[3] = data[0]["rimg"];
+      console.log(data);
+      str[0] = data["rname"];
+      str[1] = data["rtime"];
+      str[2] = data["rno"];
+      str[3] = data["rimg"];
       // 获取店铺名称以及图片
       document.querySelector("#leftbar > div > h3").innerHTML = str[0];
       document.querySelector("#leftbar > div > p").innerHTML = "营业时间：" + str[1];
       document.querySelector("#leftbar > div > img").src = str[3];
 
       // 初始化界面
-      url = "http://localhost:8000/api/rcom?rno=" + str[2];
+      url = "http://localhost:8080/rcom/all?rno=" + str[2];
       $.get(url, function (data, status) {
         if (status == "success") {
           // console.log(data);
@@ -193,7 +192,7 @@
   // 查看菜单
   document.querySelector("#caidan").onclick = function () {
     $("#rightbar").empty();
-    $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+    $.get("http://localhost:8080/food/all?rno=" + str[2], function (data, status) {
       if (status == "success") {
         for (var i = data.length - 1; i >= 0; i--) {
           var info1 = String.format(infotemp, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"]);
@@ -217,7 +216,7 @@
   //查看评论
   document.querySelector("#pinglun").onclick = function () {
     $("#rightbar").empty();
-    url = "http://localhost:8000/api/rcom?rno=" + str[2];
+    url = "http://localhost:8080/rcom/all?rno=" + str[2];
     $.get(url, function (data, status) {
       if (status == "success") {
         // console.log(data);
@@ -244,12 +243,12 @@
       alert("菜品信息不能为空！");
       return;
     }
-    var url = "http://localhost:8000/addfood/";
+    var url = "http://localhost:8080/food/add";
     $.post(url, { rno: rno, cname: cname, cdescription: cdescription, cpri: cpri, cimg: cimg }, function (data, status) {
-      if (status == "success") {
+      if (status == "success" && data.code == 0) {
         alert("添加菜品成功！");
         $("#rightbar").empty();
-        $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+        $.get("http://localhost:8080/food/all?rno=" + str[2], function (data, status) {
           if (status == "success") {
             for (var i = data.length - 1; i >= 0; i--) {
               var info1 = String.format(infotemp, data[i]["cimg"], data[i]["cname"], data[i]["cdescription"], data[i]["cpri"], data[i]["csale"]);
@@ -288,10 +287,10 @@
     var r = confirm("亲，您确定删除该菜品吗？");
     if (r == true) {
       var cno = obj.getAttribute("id");
-      $.get("http://localhost:8000/delfood?cno=" + cno, function (data, status) {
+      $.get("http://localhost:8080/food/del?cno=" + cno, function (data, status) {
         if (status == "success") {
           $("#rightbar").empty();
-          $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+          $.get("http://localhost:8080/food/all?rno=" + str[2], function (data, status) {
             if (status == "success") {
 
               for (var i = data.length - 1; i >= 0; i--) {
@@ -322,7 +321,7 @@
     lastclick = "delfood";
 
     $("#rightbar").empty();
-    $.get("http://localhost:8000/api/food?rno=" + str[2], function (data, status) {
+    $.get("http://localhost:8080/food/all?rno=" + str[2], function (data, status) {
       if (status == "success") {
 
         for (var i = data.length - 1; i >= 0; i--) {
@@ -356,24 +355,24 @@
     var rimg=str[3]
     console.log(rno,rname,rtime,rimg)
     $.ajax({
-      url: "http://localhost:8000/api/outorder?rno=" + rno,
+      url: "http://localhost:8080/outorder/getbyrno?rno=" + rno,
       type: "GET",
       async: false,
       success: function (data) {
         for (var i = data.length - 1; i >= 0; --i) {
-          var gid=data[i]["gid"];
+          var gid=data[i]['guest']["gid"];
           var ofood=data[i]["ofood"];
           var odate=data[i]["odate"];
           var omoney=data[i]["opri"];
           $.ajax({
-            url: "http://localhost:8000/api/guest?gid=" + gid,
+            url: "http://localhost:8080/guest/get?gid=" + gid,
             type: "GET",
             async: false,
             success: function (data) {
               console.log(data)
-              var gname = data[0]["gname"]
-              var gadd   = data[0]["gadd"]
-              var gpho = data[0]["gpho"]
+              var gname = data["gname"]
+              var gadd   = data["gadd"]
+              var gpho = data["gpho"]
               var theorder = String.format(ordertemp, rimg, rname, rtime, ofood,odate,omoney, gname,gpho,gadd);
               // console.log(odate);
               $("#rightbar").append(theorder);

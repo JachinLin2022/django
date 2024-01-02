@@ -149,22 +149,20 @@
       alert("eid以及密码不能为空！");
       return;
     }
-    var url = "http://localhost:8000/api/rpass?rno=" + input;
-    $.get(url, function (data, status) {
+    var url = "http://localhost:8080/rshop/login";
+    $.post(url, { rno: input,rpass:pass}, function (data, status) {
       if (status == "success") {
-        if (data.length == 0) {
+        if (data.code == 2) {
           alert("该商家不存在！");
           return;
         }
-        else if (data[0]["rpass"] != pass) {
+        else if (data.code == 1) {
           alert("商家密码错误！");
           return;
         }
         alert("登录成功！");
         window.location.href = "./back.html?rno=" + input;
       }
-
-
     });
   }
   // 入驻
@@ -182,14 +180,15 @@
       return;
     }
 
-
-    var url = "http://localhost:8000/regshop/";
+    var url = "http://localhost:8080/rshop/add";
     $.post(url, { rno: eid,rpass:eidpass,rname:eidname,rtime:eidtime,rla:eidlati,rlo:eidlongti,rimg:eidimg }, function (data, status) {
-      if (status == "success") {
+      if (data.status == "success") {
+        alert("入驻成功！");
         window.location.href = "./back.html?eid=" + eid;
+      } else {
+        alert("注册失败，商家ID已经存在！");
+        return;
       }
-
-
     });
 
 

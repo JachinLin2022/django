@@ -8,8 +8,8 @@ import csv
 def get_url(offset):
     url='https://mainsite-restapi.ele.me/pizza/v1/restaurants?'
 
-    url+='&latitude=31.285487'
-    url+='&longitude=121.218241'
+    url+='&latitude=25.03'
+    url+='&longitude=117.02'
     url+='&order_by=5'
     url+='&offset='+str(offset)
     url+='&limit=20'
@@ -27,7 +27,7 @@ header = {
 
 def get_restaurant():
     headers = ['no','name','latitude','longitude','img_url','opentime','eid']
-    f=open('test.csv','w')
+    f=open('ly/res.csv','w')
     f_csv = csv.writer(f)
     f_csv.writerow(headers)
     i=0
@@ -36,10 +36,13 @@ def get_restaurant():
         print("正在爬取第",offset,"条数据")
         res=requests.get(get_url(offset), headers=header)
         res=json.loads(res.text)
+        
         for restruant in res:
             i=i+1
             f_csv.writerow([i,restruant['name'],restruant['latitude'],restruant['longitude'],restruant['image_url'],restruant['opening_hours'][0],restruant['id']])
+            
         offset=offset+20
+        break
 
 def get_comment():
     urltmp='https://restapi.ele.me/pizza/ugc/restaurants/{0}/batch_comments?&has_content=true&offset=0&limit=50'
@@ -50,7 +53,7 @@ def get_comment():
     }
     # 读取商家的ID
     eidlist=[]
-    with open("D:\\django\\test.csv",'r') as f:
+    with open("test.csv",'r') as f:
         reader = csv.reader(f)
         for row in reader:
             if len(row)==0:
@@ -59,16 +62,17 @@ def get_comment():
                 continue
             eidlist.append(row[6])
     head = ['rno','rcom','rcdate','rcscore','username','imgsrc']
-    f=open('comment.csv','w',encoding='utf8')
+    f=open('comment_test.csv','w',encoding='utf8')
     f_csv = csv.writer(f)
     f_csv.writerow(head)
     for eid in eidlist:
+        print(eid)
         url=urltmp.format(eid)
         header["X-Shard"]=headertmp["X-Shard"].format(eid)
         # print(header)
         res=requests.get(url,headers=header)
         res=json.loads(res.text)
-        
+        print(res)
         for comment in res["comments"]:
             content=[]
             content.append(eid)
@@ -88,7 +92,7 @@ def get_comment():
             f_csv.writerow(content)
         
 
-    
+        break
     
 
 
@@ -137,11 +141,11 @@ def get_food():
     }
 
     # 读取商家的ID
-    start=26
-    end=26
+    start=0
+    end=1
     eidlist=[]
     # eidlist.append("E16854064637350123593")
-    with open("D:\\django\\test.csv",'r') as f:
+    with open("ly/res.csv",'r') as f:
         reader = csv.reader(f)
         for row in reader:
             if len(row)==0:
@@ -157,7 +161,7 @@ def get_food():
 
     # 初始化csv
     headers = ['rno','cname','cpri','cdescription','csale','imgsrc']
-    f=open('cuisine.csv','w',encoding="utf-8")
+    f=open('ly/cuisine.csv','w',encoding="utf-8")
     f_csv = csv.writer(f)
     f_csv.writerow(headers)
     # 开始爬取
@@ -166,6 +170,7 @@ def get_food():
         url=urltmp.format(eid)
         res=requests.get(url=url,headers=header)
         res=json.loads(res.text)
+        print(res)
         for menutag in res["menu"]:
             # print(menutag["name"])
             for food in menutag["foods"]:
@@ -184,5 +189,5 @@ def get_food():
 
 # get_comment()
 # get_restaurant()
-# get_cuisine()
-get_food()
+get_cuisine()
+# get_food()
